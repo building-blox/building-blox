@@ -1,0 +1,12 @@
+# Netifly build settings
+[build]
+   publish = "public"      # the output directory to push to the CDN after the build
+   command = "npm run build"  # the command to build the site
+   # Use below instead if using Lambda
+   # command = "npm run build && npm run build:lambda"  # the command to build the site
+   # functions = "lambda"
+
+[[redirects]]
+    from = "/*"
+    to = "/public/:splat"
+    status = 200

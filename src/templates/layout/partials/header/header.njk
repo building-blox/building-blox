@@ -1,0 +1,15 @@
+<header>
+    <nav class="main-nav">
+        <ul class="nav">
+            <li class="nav__brand">Brand</li>
+            <li class="nav__item">
+                <a href="/" {% if blox.page.name == 'home' %}class="nav__link nav__link_active"
+                        {% else %}class="nav__link" {% endif %}>Home</a>
+            </li>
+            <li class="nav__item">
+                <a href="/admin" {% if blox.page.name == 'admin' %}class="nav__link nav__link_active"
+                        {% else %}class="nav__link" {% endif %}>Admin</a>
+            </li>
+        </ul>
+    </nav>
+</header>

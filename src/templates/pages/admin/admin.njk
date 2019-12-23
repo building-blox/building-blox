@@ -1,0 +1,24 @@
+{% set blox = htmlWebpackPlugin.options.blox %}
+{% set title = blox.page.title %}
+
+{% extends "layout/layout.njk" %}
+
+{% block content %}
+{% if blox.db.meta.space.id %}
+<iframe class="admin" src="https://app.appyay.com?p={{app.db.meta.project.id}}" frameborder="0" height="100%"
+  width="100%"></iframe>
+<div class="loader">Loading...</div>
+{% else %}
+<p>Admin section goes here</p>
+{% endif %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+{# <script src="{{ page.name | path }}js/bundle.min.js"></script> #}
+<script>
+  document.querySelector('body').classList.add('full-height');
+  //Appyay will send a message when it's initializing
+  window.addEventListener('message', function (e) {
+    if (e.data.event === "appyayInit")
+      document.querySelector('.loader').style.display = 'none';
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+/******
+Admin
+*******/
+body {
+    overflow: hidden;
+}
+.admin {
+    height: calc(100vh - 74px);
+}
+
+.loader {
+    position: absolute;
+    top:90px;
+    left:20px;
+    height: calc(100vh - 74px);
+}

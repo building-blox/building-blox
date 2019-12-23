@@ -1,0 +1,19 @@
+<section class="reviews item">
+	<h1 class="item__name">{{blox.db.reviews.contentType.pluralName}}</h1>
+	<div class="slider">
+		{% for review in blox.db.reviews.items %}
+			<div class="slider__item">
+				<blockquote class="testimonial">
+					<p>&ldquo;{{review.fields.quote}}&rdquo;</p>
+					<div>
+						<div class="slider__image">
+							<img src="{{review.fields.image.sizes.w150}}" alt="{{review.fields.reviewerName}}" class="mb-3">
+						</div>
+						<h4 class="slider__name">{{review.fields.reviewerName}}</h4>
+						<p class="slider__position">{{review.fields.reviewerPosition}}</p>
+					</div>
+				</blockquote>
+			</div>
+		{% endfor %}
+	</div>
+</section>

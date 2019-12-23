@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{{title}} | {{blox.app.name}}</title>
+        <!-- Custom styles -->
+        <link rel="stylesheet" href="{{ blox.page.path }}assets/css/{{ blox.page.name }}.css"/>
+    </head>
+
+    <body>
+        {% include "layout/partials/header/header.njk" %}
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+        <!-- Admin page doesn't have a footer -->
+        {% if blox.page.name !== 'admin' %}
+            {% include "layout/partials/footer/footer.njk" %}
+        {% endif %}
+        <script src="{{blox.page.path}}assets/js/{{blox.page.name}}.js"></script>
+    </body>
+
+</html>

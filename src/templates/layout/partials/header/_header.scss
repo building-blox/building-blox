@@ -1,0 +1,56 @@
+/*********
+Header
+**********/
+
+.main-nav{
+    background-color: #fff;
+    box-shadow: 1px 1px 2px 0px rgba(50, 50, 50, 0.75);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .nav{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    &__brand {
+      margin-right: auto;
+      font-size: 1.4em;
+      color: $light-gray;
+      }
+      &__item {
+          display: block; 
+          height:30px;
+          line-height: 30px;
+          font-size: 1.4em;
+          margin-right: 20px;
+      }
+      &__link {
+          text-decoration: none;
+          display: inline-block;
+          color: $gray;
+          display: block;
+          transition: .3s background-color;
+      }   
+      &__link:hover {
+          color: #000;
+          text-decoration: none;
+      }	
+      &__link_active {
+          color: $gray;
+          border-bottom: 2px solid $gray;
+          cursor: default;
+      }
+  }
+  
+  @media only screen and (max-width: 600px) {
+      .nav{
+          flex-direction: column;
+          &__item {
+              padding: 20px 0;
+          }
+      }
+  }

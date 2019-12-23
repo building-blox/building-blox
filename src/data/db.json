@@ -1,0 +1,316 @@
+{
+  "comments": {
+    "items": [
+      {
+        "id": "5dd3a775ab4e69194897dcb8",
+        "slug": "comment",
+        "category": "post",
+        "status": "published",
+        "createdAt": "2019-11-19T08:27:33.215Z",
+        "updatedAt": "2019-11-20T12:59:15.356Z",
+        "title": "Untitled",
+        "fields": {
+          "body": "<p>qweqwe</p>",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5dcd631170e43026b85628fe/a/5dd53895afa00f29b0498af1/w150",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5dcd631170e43026b85628fe/a/5dd53895afa00f29b0498af1",
+            "originalWidth": 420,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5dcd631170e43026b85628fe/a/5dd53895afa00f29b0498af1/w150"
+            }
+          }
+        }
+      },
+      {
+        "id": "5ddf9974de845e1ce8b90262",
+        "slug": "comment",
+        "category": "post",
+        "status": "published",
+        "createdAt": "2019-11-28T09:55:00.097Z",
+        "updatedAt": "2019-11-28T09:55:00.097Z",
+        "title": "Untitled",
+        "fields": {
+          "body": null,
+          "image": {
+            "url": null
+          }
+        }
+      },
+      {
+        "id": "5ddf99a0de845e1ce8b90263",
+        "slug": "comment",
+        "category": "post",
+        "status": "published",
+        "createdAt": "2019-11-28T09:55:44.559Z",
+        "updatedAt": "2019-11-28T09:55:44.559Z",
+        "title": "Untitled",
+        "fields": {
+          "body": null,
+          "image": {
+            "url": null
+          }
+        }
+      }
+    ],
+    "contentType": {
+      "id": "5dd12e45fcbfc90f7c7b9f81",
+      "name": "Comment",
+      "pluralName": "Comments",
+      "description": "",
+      "environment": "5dcd631170e43026b85628fe",
+      "category": "post",
+      "createdAt": "2019-11-17T11:25:57.447Z",
+      "updatedAt": "2019-11-28T09:55:44.692Z"
+    }
+  },
+  "contact": {
+    "id": "5dd400aba872d81aecfe1231",
+    "slug": "oijoij",
+    "category": "page",
+    "status": "published",
+    "createdAt": "2019-11-19T14:48:11.144Z",
+    "updatedAt": "2019-11-19T14:58:48.444Z",
+    "title": "oijoij",
+    "fields": {
+      "intro": "oijoij",
+      "contatDetails": null
+    },
+    "contentType": {
+      "id": "5dd3a15d546fc422b03e4b09",
+      "name": "Contact",
+      "pluralName": "Contact",
+      "description": "",
+      "environment": "5dcd631170e43026b85628fe",
+      "category": "page",
+      "createdAt": "2019-11-19T08:01:33.286Z",
+      "updatedAt": "2019-11-19T14:48:11.166Z"
+    }
+  },
+  "features": {
+    "items": [
+      {
+        "id": "5dd761c7a79faa080483390e",
+        "slug": "modular-architecture",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.479Z",
+        "updatedAt": "2019-11-22T04:19:19.479Z",
+        "title": "Modular architecture",
+        "fields": {
+          "title": "Modular architecture",
+          "body": "<p>Jen Starter uses a combination of industry standard technologies to create modular, reusable components.</p><h2>Templating</h2><p>Through the use of template inheritance, we can create child HTML components. In addition to this, we can also use include blocks of HTML into a scope, and this is used in Jen Starter for layout components.</p><h2>Modular CSS</h2><p><span style=\"color: rgba(0, 0, 0, 0.84);\">One of the benefits of CSS-in-JS is that it abstracts the CSS model to the component level, rather than the document level. In Jen Starter, modularity of styles is achieved by placing Sass files at component level. CSS won't be scoped to the page as is with CSS-in-JS, but BEM naming is used instead to enforce scoping.</span></p><h2><span style=\"color: rgba(0, 0, 0, 0.84);\">Modular Javascript</span></h2><p>You don't need to write any Javascript for Jen Starter to work, but if you do want to use it you can choose to use it globally or at a component level.</p>",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc6c3f2b6f0718952e60/w420",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc6c3f2b6f0718952e60",
+            "originalWidth": 420,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc6c3f2b6f0718952e60/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc6c3f2b6f0718952e60/w420"
+            }
+          }
+        }
+      },
+      {
+        "id": "5dd761c7a79faa080483390f",
+        "slug": "easily-customizable",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.493Z",
+        "updatedAt": "2019-11-22T04:19:19.493Z",
+        "title": "Easily customizable",
+        "fields": {
+          "title": "Easily customizable",
+          "body": "<p>Jen starter comes with a common set of tasks to run for development and optimize for production, but these tasks can be changed or removed to suit your needs and new tasks can be plugged in easily.</p><p>Jen is built on top of Gulp.js, a steaming build system popular for its simplicity and huge ecosystem of plugins. Here's an example of how Gulp task that gets images from the<em> src</em> directory and pipes them to the <em>public</em> directory:</p><pre class=\"ql-syntax\" spellcheck=\"false\">gulp.task('images', function() {\n  return gulp.src(['src/assets/images/**/*.{gif,jpg,png,svg}'])\n      .pipe(gulp.dest('public/images'));\n});\n</pre><p>The Jen library only requires two things: Gulp for the build system and Nunjucks for templating. The rest is up to the developer.</p>",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d284abd3f2b6f0718952e65/w420",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d284abd3f2b6f0718952e65",
+            "originalWidth": 512,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d284abd3f2b6f0718952e65/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d284abd3f2b6f0718952e65/w420"
+            }
+          }
+        }
+      },
+      {
+        "id": "5dd761c7a79faa0804833910",
+        "slug": "built-for-rapid-development",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.501Z",
+        "updatedAt": "2019-11-22T04:19:19.501Z",
+        "title": "Built for rapid development",
+        "fields": {
+          "title": "Built for rapid development",
+          "body": "<p>Jen makes it simple to take an HTML template and convert it into a dynamic data-driven static website. In fact, it will work out of the box if you copy and paste the HTML, CSS and Javascript into the right places. There is no CSS-in-JS to deal with!</p>",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc333f2b6f0718952e5b/w420",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc333f2b6f0718952e5b",
+            "originalWidth": 512,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc333f2b6f0718952e5b/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d27fc333f2b6f0718952e5b/w420"
+            }
+          }
+        }
+      }
+    ],
+    "contentType": {
+      "id": "5dd761c7a79faa080483390d",
+      "name": "Feature",
+      "pluralName": "Features",
+      "description": "Features of the App.",
+      "environment": "5dcd631170e43026b85628fe",
+      "category": "entity",
+      "createdAt": "2019-11-22T04:19:19.375Z",
+      "updatedAt": "2019-11-22T04:19:19.510Z"
+    }
+  },
+  "reviews": {
+    "items": [
+      {
+        "id": "5dd761c7a79faa0804833912",
+        "slug": "review-1",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.539Z",
+        "updatedAt": "2019-11-22T04:19:19.539Z",
+        "title": "OK, now we're talking",
+        "fields": {
+          "quote": "OK, now we're talking",
+          "reviewerName": "Julie Moore",
+          "image": {
+            "url": "roksolana-zasiadko-3EaevlO2uPI-unsplash.jpg",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2855013f2b6f0718952e89",
+            "originalWidth": 2270,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2855013f2b6f0718952e89/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2855013f2b6f0718952e89/w420",
+              "w800": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2855013f2b6f0718952e89/w800",
+              "w1200": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2855013f2b6f0718952e89/w1200"
+            }
+          }
+        }
+      },
+      {
+        "id": "5dd761c7a79faa0804833913",
+        "slug": "review-2",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.549Z",
+        "updatedAt": "2019-11-22T04:19:19.549Z",
+        "title": "This seriously rocks",
+        "fields": {
+          "quote": "This seriously rocks",
+          "reviewerName": "Mary Smith",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854c33f2b6f0718952e80/w1200",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854c33f2b6f0718952e80",
+            "originalWidth": 2190,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854c33f2b6f0718952e80/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854c33f2b6f0718952e80/w420",
+              "w800": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854c33f2b6f0718952e80/w800",
+              "w1200": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854c33f2b6f0718952e80/w1200"
+            }
+          }
+        }
+      },
+      {
+        "id": "5dd761c7a79faa0804833914",
+        "slug": "review-3",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.558Z",
+        "updatedAt": "2019-11-22T04:19:19.558Z",
+        "title": "Now this is what I've been waiting for",
+        "fields": {
+          "quote": "Now this is what I've been waiting for",
+          "reviewerName": "Robert Brown",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75/w2400",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75",
+            "originalWidth": 3456,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75/w420",
+              "w800": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75/w800",
+              "w1200": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75/w1200",
+              "w2400": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854633f2b6f0718952e75/w2400"
+            }
+          }
+        }
+      },
+      {
+        "id": "5dd761c7a79faa0804833915",
+        "slug": "review-4",
+        "status": "published",
+        "createdAt": "2019-11-22T04:19:19.566Z",
+        "updatedAt": "2019-11-22T04:19:19.566Z",
+        "title": "No, your eyes aren't decieving you",
+        "fields": {
+          "quote": "No, your eyes aren't decieving you",
+          "reviewerName": "Jamie Williams",
+          "image": {
+            "url": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a/w2400",
+            "baseUrl": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a",
+            "originalWidth": 5760,
+            "sizes": {
+              "w150": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a/w150",
+              "w420": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a/w420",
+              "w800": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a/w800",
+              "w1200": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a/w1200",
+              "w2400": "https://s3-ap-southeast-2.amazonaws.com/com.appyay/e/5d2715de3f2b6f0718952e4a/a/5d2854243f2b6f0718952e6a/w2400"
+            }
+          }
+        }
+      }
+    ],
+    "contentType": {
+      "id": "5dd761c7a79faa0804833911",
+      "name": "Review",
+      "pluralName": "Reviews",
+      "description": "Reviews of the App.",
+      "environment": "5dcd631170e43026b85628fe",
+      "category": "entity",
+      "createdAt": "2019-11-22T04:19:19.524Z",
+      "updatedAt": "2019-11-22T04:19:19.575Z"
+    }
+  },
+  "documentation": {
+    "id": "5dd761c7a79faa0804833917",
+    "slug": "documentation",
+    "status": "published",
+    "createdAt": "2019-11-22T04:19:19.605Z",
+    "updatedAt": "2019-11-22T04:19:19.605Z",
+    "title": "Untitled",
+    "fields": {
+      "body": "<p>Jen Starter is a starter project for the Jen static website generator. The primary goal of the project is to facilitate rapid development of static websites.</p><p>This project includes:</p><ul><li>Sass preprocessing</li><li>Nunjucks/HTML for templating</li><li>CSS concatenation and minification</li><li>Javascript concatenation and uglification</li><li>Multi-browser live browser reload</li><li>Master-detail pattern</li><li>A modular, reusable design</li></ul><h2>Getting Started</h2><h3>Clone this repository</h3><pre class=\"ql-syntax\" spellcheck=\"false\">git clone https://github.com/appyay/jen-starter.git\ncd jen-starter\n</pre><p>Or <a href=\"#\" target=\"_blank\">download as a ZIP</a></p><h3>Install packages</h3><pre class=\"ql-syntax\" spellcheck=\"false\">npm install\n</pre><h3>Run the development server</h3><pre class=\"ql-syntax\" spellcheck=\"false\">npm run dev\n</pre><p>The website will be viewable at <em>http://localhost:3000</em>. On save of the project, output will be compiled and built to the \"public\" directory and the website will be reloaded.</p><h2>How to use</h2><h3>Space structure</h3><p>Jen assumes the following project structure:</p><pre class=\"ql-syntax\" spellcheck=\"false\">|--src\n  |--data // folder and contents will be generated if supplied a data URL\n    |--db.json \n  |--templates\n    |--pages\n      |--home This is the homepage folder. Other pages can be added \n        |--index.html\n|--gulpfile.js // required\n</pre><h3>Creating templates</h3><p><a href=\"https://mozilla.github.io/nunjucks/\" target=\"_blank\">Nunjucks</a> is used for compiling template files to HTML.</p><p>Templates are stored in <em>src/templates</em>. To create a template, create a file in the templates directory with the \".html\" file extension.</p><h3>Pages</h3><p>Pages are added as sub-directories of the <em>pages</em> directory with an index.html file.</p><h3>Includes</h3><p>To pull in another template, use the following syntax:</p><pre class=\"ql-syntax\" spellcheck=\"false\">{% include \"folder/file.html\" %}\n</pre><p>This is used to include the layout templates in each of the pages:</p><pre class=\"ql-syntax\" spellcheck=\"false\">{% include \"layout/_header.html\" %}\n</pre><h3>Partials</h3><p>Partial files begin with an underscore and encapulate reusable components of a page. The home folder (home page) contains two examples of partials: <em>_landing.html </em>and <em>_reviews.html</em>.</p><p>Partial files are defined with Nunjucks blocks:</p><pre class=\"ql-syntax\" spellcheck=\"false\">{% block greeting %}\n&lt;h2&gt;Hi&lt;/h2&gt;\n{% endblock %}\n</pre><p>The partial can then be used in your page like so:</p><pre class=\"ql-syntax\" spellcheck=\"false\">{% block hello %}{% endblock %}\n</pre><h3>Frontmatter</h3><p>The page object provides metadata about the page. It should be set at the top of every page HTML file:</p><pre class=\"ql-syntax\" spellcheck=\"false\">{% set page = {\nname: 'home', // page name\ntitle: 'Home' // title of page, used in layout/_header.html\n} %}\n</pre><p>More properties can be added to this object as needed.</p><h3>Detail pages</h3><p>The master-detail pattern (i.e. a list page and a detail page), is demonstrated in the features page:</p><pre class=\"ql-syntax\" spellcheck=\"false\">...\n|--pages\n  ...\n  |--features // page folder\n    |--detail\n      |--index.html // this is your detail page\n    |--index.html //this is your list (master) page\n  ...\n</pre><p>So, if a feature item has an ID of \"abc123\", the detail page would be accessible at: <em>http://localhost:3000/features/abc123</em></p><h2>Data</h2><h3>Loading data</h3><p>Dummy data of reviews, features and documentation is already included in the project. Data can be loaded in three ways:</p><p>Manually add a <em>db.json</em> file to the data folder.</p><p>Load remote data by running:</p><pre class=\"ql-syntax\" spellcheck=\"false\">npm load --dataUrl 'http://example.com/api/whatever'\n</pre><p>Load remote data and build the project by running:</p><pre class=\"ql-syntax\" spellcheck=\"false\">npm build\n</pre><h3>Database</h3><p>The database data for the application is located at <em>data/db.json</em>. This data can be repopulated every time the project builds, so you can have dynamic data if used in combination with static hosting services, webhooks and a headless CMS.</p><p>Data in this file should be in the following format (using \"features\" as an example):</p><pre class=\"ql-syntax\" spellcheck=\"false\">{\n  \"features\": {\n    \"items\": [{\n      \"id\": \"abc123\",\n      ...\n    }]\n  }\n}\n</pre><h2>Assets</h2><h3>Sass</h3><p>Sass files are stored in the <em>src/assets/scss/</em> directory and in the root of page directories. The root Sass file is <em>src/assets/scss/index.scss</em> and page Sass files are imported in this file like this:</p><pre class=\"ql-syntax\" spellcheck=\"false\">@import '../../templates/pages/home/index';\n</pre><h3>Javascript</h3><p>Javascript files can be added to the <em>src/assets/js</em> folder and will be concatenated into one file and uglified.</p><h3>Images</h3><p>Images can be added to the <em>src/assets/images</em> folder. This is an example of how to access an image:</p><pre class=\"ql-syntax\" spellcheck=\"false\">src=\"{{ page.path | path }}my-image.png\"</pre>"
+    },
+    "contentType": {
+      "id": "5dd761c7a79faa0804833916",
+      "name": "Documentation",
+      "pluralName": "Documentation",
+      "description": "Jen Starter Documentation",
+      "environment": "5dcd631170e43026b85628fe",
+      "category": "page",
+      "createdAt": "2019-11-22T04:19:19.588Z",
+      "updatedAt": "2019-11-22T04:19:19.614Z"
+    }
+  },
+  "twoWords": {
+    "items": [],
+    "contentType": {
+      "id": "5de1b2dadb14932d643bc3b7",
+      "name": "Two word",
+      "pluralName": "Two words",
+      "description": "",
+      "environment": "5dcd631170e43026b85628fe",
+      "category": "entity",
+      "createdAt": "2019-11-30T00:07:54.685Z",
+      "updatedAt": "2019-11-30T00:08:05.584Z"
+    }
+  },
+  "meta": {
+    "space": {
+      "id": "5dcd631170e43026b85628fd",
+      "name": "Sandbox Space",
+      "description": "A sandbox space for Appyay",
+      "tagline": "This is the Sandbox"
+    }
+  }
+}

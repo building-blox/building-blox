@@ -2,7 +2,7 @@
 
 [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Finspiring-sammet-8f8ba9.netlify.com&tab=desktop)
 
-This project is the starting point for creating Building Blox projects. Clone "Blocks" into this project to build you site. 
+This project is the starting point for creating Building Blox projects. Clone "Blocks" into this project to build your site. 
 
 > Building Blox focuses on facilitating the rapid development of static websites, providing ease of use for developers and it works seamlessly with the [Appyay](https://appyay.com) headless content management system.
 

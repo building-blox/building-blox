@@ -31,15 +31,19 @@
   const path = require('path');
   var yaml = require('js-yaml');
   const axios = require('axios');
+  const ncp = require('ncp').ncp;
   const write = require('write-data');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
+  const chalk = require('chalk');
+  const info = chalk.keyword('lightblue')
+  const success = chalk.keyword('lightgreen')
 
   class Blox {
     page = {};
     pages = [];
     pageNames = [];
     entry = {};
-    blockUtilConfig = {};
+    blockUtilConfig = { images: '' };
     itemsPerPage;
     context;
     options;
@@ -51,8 +55,11 @@
     db = require(`${this.dataPath}db.json`);
     data = this.data;
 
-    sassPattern = /\.(sa|sc|c)ss$/;
-    jsPattern = /\.js$/;
+    patterns = {
+      sass: /\.(sa|sc|c)ss$/,
+      js: /\.js$/,
+      images: /\images$/
+    }
 
     defaultEntryPaths = [
       "./src/assets/js/main.js"
@@ -69,17 +76,30 @@
 
     loadData() {
       return new Promise((resolve, reject) => {
-        if (!this.options.apiEndpoint) {
-          throw new Error('Please provide "apiEndpoint"');
+        if (!this.options.dataFetchType || this.options.dataFetchType === "remote") {
+          if (!this.options.apiEndpoint) {
+            throw new Error('Please provide "apiEndpoint" or set "dataFetchType" to "local"');
+          }
+          if (!this.options.apiKey) {
+            throw new Error('Please provide "apiKey" or set "dataFetchType" to "local"');
+          }
+        } else {
+          if (this.options.dataFetchType !== 'local') {
+            throw new Error('Value of dataFetchType must be either "remote" or "local"');
+          } else {
+            return;
+          }
+
         }
-        if (!this.options.apiKey) {
-          throw new Error('Please provide "apiKey"');
-        }
+
         let dataUrl = `${this.options.apiEndpoint}?apikey=${this.options.apiKey}`;
         axios
           .get(dataUrl)
           .then(async (response) => {
             await write.sync(`${this.dataPath}db.json`, response.data);
+            console.log(
+              success('Blox: Remote data successfully written to src/data/db.json')
+            );
             resolve();
           })
           .catch(function (error) {
@@ -114,10 +134,64 @@
 
     createEntryPaths(blockName) {
       let newEntryPaths = [...this.entryPaths];
-      const entryPath = `./src/assets/scss/generated/${blockName}.scss`;
+      // const entryPath = `./src/assets/scss/generated/${blockName}.scss`;
+      const entryPath = `./temp/scss/${blockName}.scss`;
       newEntryPaths.push(entryPath);
       this.entry[blockName] = newEntryPaths;
       return newEntryPaths;
+    }
+
+    makeDir(path) {
+      return new Promise(async function (resolve, reject) {
+        if (!fs.existsSync(path)) {
+          fs.mkdirSync(path, { recursive: true });
+        }
+        resolve();
+      });
+    }
+
+    connectPageImages(blockName) {
+      let self = this;
+      return new Promise(async function (resolve, reject) {
+        console.log('....block name:::', blockName)
+        let pagePath = `${self.pagesPath}/${blockName}`;
+        let hasImages = await self.contains(pagePath, self.patterns.images);
+        if (hasImages) {
+          fs.readdir(`${pagePath}/images`, function (err, files) {
+            //handling error
+            if (err) {
+              return console.log('Unable to scan directory: ' + err);
+            }
+            files.forEach(function (file) {
+              self.blockUtilConfig.images += `require("../src/templates/pages/${blockName}/images/${file}");`;//`import img from "../src/templates/pages/${blockName}/images/${file}";`;
+            });
+            //write JS imports to generated temp.js
+            fs.writeFileSync(`${self.projectRoot}/temp/temp.js`,
+              self.blockUtilConfig.images, null, 4);
+              console.log(
+                info(`Blox: Connected ${blockName} images`)
+              );
+            resolve();
+          });
+          // console.log('has images', `${self.templatesPath}/temp`);
+          // const destPath = `${self.projectRoot}/temp/images/${blockName}`;
+          // await self.makeDir(destPath);
+          // ncp(
+          //   `${pagePath}/images`, destPath, function (err) {
+          //     if (err) {
+          //       console.error(err);
+          //       resolve();
+          //     }
+          //     console.log('done!');
+          //     resolve();
+          //   });
+
+
+        } else {
+          console.log('...no images');
+          resolve();
+        }
+      });
     }
 
     async connectPageLocalBlocks(pageName, path, blockType) {
@@ -130,6 +204,7 @@
             if (dirs) {
               for (let i = 0; i < dirs.length; i++) {
                 let blockName = dirs[i];
+
                 self.blockUtilConfig[pageName].sass += self.getSassContent(
                   pageName,
                   `${blockName} block of ${pageName} page`,
@@ -137,6 +212,9 @@
                 );
                 await self.processEntryPoint(pageName, `./src/templates/pages${path}${blockType}/${blockName}/${blockName}`, `${blockPath}${blockName}`)
               }
+              console.log(
+                info(`Blox: Connected ${dirs.length} ${blockType} for ${pageName} page`)
+              );
               resolve()
             }
           } else if (err.code === 'ENOENT') {
@@ -158,10 +236,14 @@
           `/sets${blockPath}/${block.name}/${block.name}`);
         await this.processEntryPoint(pageName, `./src/templates/sets${blockPath}/${block.name}/${block.name}`, `${basePath}/${block.name}`)
       }
+      console.log(
+        info(`Blox: Connected ${blocks.length} global block(s) for ${pageName} page`)
+      );
     }
 
     getSassContent(pageName, forText, pathText) {
-      return `\n\n/************\nAuto-generated Sass for ${forText}\n*************/\n@import "../../../templates${pathText}";`;
+      // return `\n\n/************\nAuto-generated Sass for ${forText}\n*************/\n@import "../../src/templates${pathText}";`;
+      return `\n\n/************\nAuto-generated Sass for ${forText}\n*************/\n@import "../../src/templates${pathText}";`;
     }
 
     async connectPageGlobalBlocks(setConfig) {
@@ -178,12 +260,16 @@
 
     createBlockUtilConfig() {
       return {
-        sass: '@import "../main";\n@import "../../../templates/layout/layout";\n',
+        sass: '@import "../../src/assets/scss/main";\n@import "../../src/templates/layout/layout";\n',
+        // sass: '@import "../main";\n@import "../../../templates/layout/layout";\n',
+        images: '',
         hasScripts: false
       }
     }
 
     async connectPage(pageName, pagePath, sassConfig) {
+
+      await this.connectPageImages(pageName);
 
       //connect page Sass
       this.blockUtilConfig[pageName].sass += this.getSassContent(
@@ -204,10 +290,16 @@
       //connect blocks that have global (project-level) scope
       let blockConfig = await this.getBlockConfig(pageName);
       await this.connectPageGlobalBlocks(blockConfig);
-
+      const sassPath = `${this.projectRoot}/temp/scss`;
+      await this.makeDir(`${this.projectRoot}/temp/scss`);
       //write Sass imports to generated page Sass file
-      fs.writeFileSync(`${this.projectRoot}/src/assets/scss/generated/${pageName}.scss`,
+      fs.writeFileSync(`${sassPath}/${pageName}.scss`,
         this.blockUtilConfig[pageName].sass, null, 4);
+        console.log(
+          success(`Blox: Finished connecting blocks for ${pageName} page`)
+        );
+      // fs.writeFileSync(`${this.projectRoot}/src/assets/scss/generated/${pageName}.scss`,
+      //   this.blockUtilConfig[pageName].sass, null, 4);
     }
 
     /**
@@ -293,6 +385,9 @@
         })
         self.pages.push(page);
         resolve();
+        console.log(
+          success(`Blox: Prepared ${pageName} page for generation`)
+        );
       });
     }
 
@@ -306,6 +401,7 @@
         this.pageNames = await this.getDirectories(this.pagesPath);
         self.processTemplates()
           .then(() => {
+            success(`Blox: Ready for generation`)
             resolve(self.pages);
           });
       });
@@ -348,6 +444,9 @@
 
           self.pages.push(page);
           resolve();
+          console.log(
+            success(`Blox: Prepared ${paginationOptions.folder} pagination psuccessage for generation`)
+          );
         } else {
           resolve();
         }
@@ -357,10 +456,15 @@
     contains(path, pattern) {
       let self = this;
       return new Promise(function (resolve, reject) {
-        let files = fs.readdirSync(`${path}`).filter(function (file) {
-          return file.match(pattern);
-        });
-        resolve(files.length > 0);
+        try {
+          let files = fs.readdirSync(`${path}`).filter(function (file) {
+            return file.match(pattern);
+          });
+          resolve(files.length > 0);
+        } catch (error) {
+          resolve(false);
+        }
+
       })
     }
 
@@ -424,15 +528,15 @@
 
     /**
      * Generate the detail pages.
-     * @param {String} folder 
+     * @param {String} pageName 
      * @param {String} subfolder 
      */
-    async generateDetailPages(folder, entryConfig) {
+    async generateDetailPages(pageName, entryConfig) {
       let self = this;
       return new Promise(async (resolve) => {
-        const folderPath = path.join(self.templatesPath, folder, 'detail')
-        let items = self.context.db[folder].items;
-        let detailName = `${folder}-detail`;
+        const folderPath = path.join(self.templatesPath, pageName, 'detail')
+        let items = self.context.db[pageName].items;
+        let detailName = `${pageName}-detail`;
 
         self.entry[detailName] = self.createEntryPaths(detailName);
         let detailEntryConfig = await self.processEntryPoint(detailName, `${folderPath}/${detailName}`, folderPath);
@@ -447,7 +551,7 @@
           let newPage = {
             name: detailName,
             title: item.title,
-            rootPage: folder,
+            rootPage: pageName,
             path: '../../',
             item: item,
             ...detailEntryConfig
@@ -458,7 +562,7 @@
 
           currentPage = Math.ceil((i + 1) / self.itemsPerPage);
           let paginationOptions = {
-            folder: folder,
+            folder: pageName,
             templatesPath: self.templatesPath,
             noOfItems: items.length,
             currentPage: currentPage,
@@ -467,8 +571,8 @@
 
           let page = new HtmlWebpackPlugin({
             blox: self.context,
-            filename: `${folder}/${item.slug}/index.html`,
-            template: `src/templates/pages/${folder}/detail/${detailName}.njk`,
+            filename: `${pageName}/${item.slug}/index.html`,
+            template: `src/templates/pages/${pageName}/detail/${detailName}.njk`,
             cache: false,
             inject: false
           })
@@ -476,13 +580,16 @@
           self.pages.push(page);
           await self.generatePaginationPage(paginationOptions, entryConfig)
         }
+        console.log(
+          success(`Blox: Prepared ${pageName} detail page for generation`)
+        );
         resolve();
       });
     }
 
     async processEntryPoint(folder, folderPath, basePath) {
       let self = this;
-      let hasScripts = await self.contains(basePath, self.jsPattern);
+      let hasScripts = await self.contains(basePath, self.patterns.js);
       if (hasScripts) {
         self.entry[folder].push(`${folderPath}.js`);
       }

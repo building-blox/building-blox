@@ -1,8 +1,8 @@
 ---
 componentSets:
-       - name: bootstrap
-         blocks:
-            - name: pagination
+      #  - name: bootstrap
+      #    blocks:
+      #       - name: pagination
       #  - name: <set_name, i.e. bootstrap>
       #    blocks:
       #       - name: <component_block_name, i.e. pagination>

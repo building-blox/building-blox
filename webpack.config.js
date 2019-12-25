@@ -5,12 +5,15 @@ const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const RemovePlugin = require('remove-files-webpack-plugin');
 const path = require('path');
 const BuildingBlox = require('building-blox');
 
 module.exports = async (env, argv) => {
   const blox = new BuildingBlox({
     mode: argv.mode,
+    apiEndpoint: 'http://localhost:3000/cd/v1/environments/5dcd631170e43026b85628fe/export',
+    apiKey: 'FFASSPRFNQQVIMBBJYXEYVBBLI7E4T3RNM4TWOJXOI2X23BWOMYA',
     // apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
     // apiKey: '<appyay_api_key>',
     itemsPerPage: 2
@@ -100,13 +103,37 @@ module.exports = async (env, argv) => {
             ]
           }
         },
+        // {
+        //   test: /\.(jpe?g|png|gif|svg)$/i,
+        //   /* Exclude fonts while working with images, e.g. .svg can be both image or font. */
+        //   // exclude: path.resolve(__dirname, '../src/assets/fonts'),
+        //   use: [{
+        //     loader: 'file-loader',
+        //     options: {
+        //       name: '[name].[ext]',
+        //       outputPath: 'images/'
+        //     }
+        //   }]
+        // },
+        // {
+        //   test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
+        //   /* Exclude images while working with fonts, e.g. .svg can be both image or font. */
+        //   exclude: path.resolve(__dirname, '../src/assets/images'),
+        //   use: [{
+        //     loader: 'file-loader',
+        //     options: {
+        //       name: '[name].[ext]',
+        //       outputPath: 'fonts/'
+        //     },
+        //   },
         {
           test: /\.(png|jpg|gif)$/i,
           use: [
             {
               loader: 'url-loader',
               options: {
-                limit: 8192
+                limit: 8192,
+                name: "assets/images/[name].[ext]"
               }
             }
           ]
@@ -139,6 +166,22 @@ module.exports = async (env, argv) => {
       }),
       new ExtraWatchWebpackPlugin({
         dirs: ['templates']
+      }),
+      new RemovePlugin({
+        before: {
+          include: [
+            'dist'
+          ],
+          trash: false,
+          allowRootAndOutside: true
+        },
+        after: {
+          include: [
+            'temp'
+          ],
+          trash: false,
+          allowRootAndOutside: true
+        }
       }),
       new CopyWebpackPlugin([
         {

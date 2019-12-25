@@ -31,7 +31,6 @@
   const path = require('path');
   var yaml = require('js-yaml');
   const axios = require('axios');
-  const ncp = require('ncp').ncp;
   const write = require('write-data');
   const HtmlWebpackPlugin = require('html-webpack-plugin');
   const chalk = require('chalk');
@@ -134,7 +133,6 @@
 
     createEntryPaths(blockName) {
       let newEntryPaths = [...this.entryPaths];
-      // const entryPath = `./src/assets/scss/generated/${blockName}.scss`;
       const entryPath = `./temp/scss/${blockName}.scss`;
       newEntryPaths.push(entryPath);
       this.entry[blockName] = newEntryPaths;
@@ -153,42 +151,25 @@
     connectPageImages(blockName) {
       let self = this;
       return new Promise(async function (resolve, reject) {
-        console.log('....block name:::', blockName)
         let pagePath = `${self.pagesPath}/${blockName}`;
         let hasImages = await self.contains(pagePath, self.patterns.images);
         if (hasImages) {
           fs.readdir(`${pagePath}/images`, function (err, files) {
-            //handling error
             if (err) {
               return console.log('Unable to scan directory: ' + err);
             }
             files.forEach(function (file) {
               self.blockUtilConfig.images += `require("../src/templates/pages/${blockName}/images/${file}");`;//`import img from "../src/templates/pages/${blockName}/images/${file}";`;
             });
-            //write JS imports to generated temp.js
+            //write JS imports to auto-generated temp/temp.js file
             fs.writeFileSync(`${self.projectRoot}/temp/temp.js`,
               self.blockUtilConfig.images, null, 4);
-              console.log(
-                info(`Blox: Connected ${blockName} images`)
-              );
+            console.log(
+              info(`Blox: Connected ${blockName} images`)
+            );
             resolve();
           });
-          // console.log('has images', `${self.templatesPath}/temp`);
-          // const destPath = `${self.projectRoot}/temp/images/${blockName}`;
-          // await self.makeDir(destPath);
-          // ncp(
-          //   `${pagePath}/images`, destPath, function (err) {
-          //     if (err) {
-          //       console.error(err);
-          //       resolve();
-          //     }
-          //     console.log('done!');
-          //     resolve();
-          //   });
-
-
         } else {
-          console.log('...no images');
           resolve();
         }
       });
@@ -242,7 +223,6 @@
     }
 
     getSassContent(pageName, forText, pathText) {
-      // return `\n\n/************\nAuto-generated Sass for ${forText}\n*************/\n@import "../../src/templates${pathText}";`;
       return `\n\n/************\nAuto-generated Sass for ${forText}\n*************/\n@import "../../src/templates${pathText}";`;
     }
 
@@ -295,17 +275,15 @@
       //write Sass imports to generated page Sass file
       fs.writeFileSync(`${sassPath}/${pageName}.scss`,
         this.blockUtilConfig[pageName].sass, null, 4);
-        console.log(
-          success(`Blox: Finished connecting blocks for ${pageName} page`)
-        );
-      // fs.writeFileSync(`${this.projectRoot}/src/assets/scss/generated/${pageName}.scss`,
-      //   this.blockUtilConfig[pageName].sass, null, 4);
+      console.log(
+        success(`Blox: Finished connecting blocks for ${pageName} page`)
+      );
     }
 
     /**
-    * Process the templates to generate pages.
+    * Prepare all templates for generation.
     */
-    async processTemplates() {
+    async prepareTemplates() {
       let self = this;
       return new Promise(async (resolve) => {
         for (let i = 0; i < self.pageNames.length; i++) {
@@ -316,7 +294,7 @@
           let entryConfig = await self.processEntryPoint(pageName, `./src/templates/pages/${pageName}/${pageName}`, pagePath);
           self.blockUtilConfig[pageName] = self.createBlockUtilConfig();
           self.blockUtilConfig[pageName].hasScripts = entryConfig.hasScripts;
-          await self.generatePage(pageName, entryConfig);
+          await self.preparePage(pageName, entryConfig);
           await self.connectPage(
             pageName,
             `/pages/${pageName}/`,
@@ -335,7 +313,7 @@
             if (subDir === 'detail') {
               let detailPath = path.join(self.pagesPath, pageName, subDir)
               if (self.context.db[pageName] && self.context.db[pageName].items) {
-                await self.generateDetailPages(pageName, entryConfig);
+                await self.prepareDetailPages(pageName, entryConfig);
                 let detailName = `${pageName}-detail`;
                 self.blockUtilConfig[detailName] = self.createBlockUtilConfig();
                 await self.connectPage(
@@ -356,13 +334,11 @@
     }
 
     /**
-       * Generate a Page.
-       * A Page is a directory with an index file within the public folder.
+       * Prepare a Page block for generation.
        * @param {String} pageName 
-       * @param {String} folderPath 
        * @param {Object} entryConfig 
        */
-    async generatePage(pageName, entryConfig) {
+    async preparePage(pageName, entryConfig) {
       let self = this;
       return new Promise(async (resolve) => {
         self.context = await self.createContext();
@@ -399,19 +375,21 @@
         }
 
         this.pageNames = await this.getDirectories(this.pagesPath);
-        self.processTemplates()
+        self.prepareTemplates()
           .then(() => {
-            success(`Blox: Ready for generation`)
+            console.log(
+              success(`Blox: Finished preparation. Ready for generation...`)
+            );
             resolve(self.pages);
           });
       });
     }
 
     /**
-     * Generate a pagination page.
+     * Prepare a pagination page for generation.
      * @param {Object} paginationOptions 
      */
-    generatePaginationPage(paginationOptions, entryConfig) {
+    preparePaginationPage(paginationOptions, entryConfig) {
       let self = this;
       return new Promise(async function (resolve, reject) {
         let folderPath = paginationOptions.pagesPath + '/' + paginationOptions.folder;
@@ -527,11 +505,11 @@
     }
 
     /**
-     * Generate the detail pages.
+     * Prepare detail pages for generation.
      * @param {String} pageName 
      * @param {String} subfolder 
      */
-    async generateDetailPages(pageName, entryConfig) {
+    async prepareDetailPages(pageName, entryConfig) {
       let self = this;
       return new Promise(async (resolve) => {
         const folderPath = path.join(self.templatesPath, pageName, 'detail')
@@ -578,7 +556,7 @@
           })
 
           self.pages.push(page);
-          await self.generatePaginationPage(paginationOptions, entryConfig)
+          await self.preparePaginationPage(paginationOptions, entryConfig)
         }
         console.log(
           success(`Blox: Prepared ${pageName} detail page for generation`)

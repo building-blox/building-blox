@@ -18,7 +18,9 @@ module.exports = async (env, argv) => {
     // apiKey: '<appyay_api_key>',
     itemsPerPage: 2
   });
+  
   const pages = await blox.getPages();
+  console.log('>>>>>>>>>entry:::', blox.getEntry())
   return {
     mode: argv.mode,
     entry: blox.getEntry(),

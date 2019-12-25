@@ -148,18 +148,20 @@
       });
     }
 
-    connectPageImages(blockName) {
+    connectImages(blockName, path) {
       let self = this;
       return new Promise(async function (resolve, reject) {
-        let pagePath = `${self.pagesPath}/${blockName}`;
-        let hasImages = await self.contains(pagePath, self.patterns.images);
+        let fullPath = `${self.templatesPath}${path}/${blockName}`;
+        console.log('full path:', fullPath)
+        let hasImages = await self.contains(fullPath, self.patterns.images);
         if (hasImages) {
-          fs.readdir(`${pagePath}/images`, function (err, files) {
+          console.log('has images:', fullPath)
+          fs.readdir(`${fullPath}/images`, function (err, files) {
             if (err) {
               return console.log('Unable to scan directory: ' + err);
             }
             files.forEach(function (file) {
-              self.blockUtilConfig.images += `require("../src/templates/pages/${blockName}/images/${file}");`;//`import img from "../src/templates/pages/${blockName}/images/${file}";`;
+              self.blockUtilConfig.images += `require("../src/templates${path}/${blockName}/images/${file}");\n`;
             });
             //write JS imports to auto-generated temp/temp.js file
             fs.writeFileSync(`${self.projectRoot}/temp/temp.js`,
@@ -185,12 +187,15 @@
             if (dirs) {
               for (let i = 0; i < dirs.length; i++) {
                 let blockName = dirs[i];
-
-                self.blockUtilConfig[pageName].sass += self.getSassContent(
-                  pageName,
-                  `${blockName} block of ${pageName} page`,
-                  `${path}${blockType}/${blockName}/${blockName}`
-                );
+                await self.connectImages(blockName, `/pages/${pageName}/${blockType}`);
+                let hasSass = await self.contains(`${blockPath}/${blockName}`, self.patterns.sass);
+                if (hasSass) {
+                  self.blockUtilConfig[pageName].sass += self.getSassContent(
+                    pageName,
+                    `${blockName} block of ${pageName} page`,
+                    `${path}${blockType}/${blockName}/${blockName}`
+                  );
+                }
                 await self.processEntryPoint(pageName, `./src/templates/pages${path}${blockType}/${blockName}/${blockName}`, `${blockPath}${blockName}`)
               }
               console.log(
@@ -249,14 +254,16 @@
 
     async connectPage(pageName, pagePath, sassConfig) {
 
-      await this.connectPageImages(pageName);
-
-      //connect page Sass
-      this.blockUtilConfig[pageName].sass += this.getSassContent(
-        pageName,
-        sassConfig.forText,
-        sassConfig.pathText
-      );
+      await this.connectImages(pageName, '/pages');
+      let hasSass = await this.contains(`${this.pagesPath}/${pageName}`, this.patterns.sass);
+      if (hasSass) {
+        //connect page Sass
+        this.blockUtilConfig[pageName].sass += this.getSassContent(
+          pageName,
+          sassConfig.forText,
+          sassConfig.pathText
+        );
+      }
 
       const layoutPath = '/layout/'
       //connect layout-scoped partial and component blocks

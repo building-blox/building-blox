@@ -33,7 +33,7 @@ Building Blox features include:
 * A modular, reusable design
 
 ## Getting Started
-### 1. Use this template (click the green "Use this template" button") or,
+### 1. Use this template (click the green "Use this template" button) or,
 #### Clone this repository
 ```
 git clone https://github.com/Building-Blox/building-blox.git

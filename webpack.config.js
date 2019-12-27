@@ -4,15 +4,18 @@ const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const RemovePlugin = require('remove-files-webpack-plugin');
 const path = require('path');
 const Blox = require('building-blox');
+
+require('dotenv').config();
 
 module.exports = async (env, argv) => {
   const blox = new Blox({
     mode: argv.mode,
-    apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
-    apiKey: '<appyay_api_key>',
+    // apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
+    // apiKey: '<appyay_api_key>',
+    apiEndpoint: process.env.API_ENDPOINT,//'http://localhost:3000/cd/v1/environments/5dcd631170e43026b85628fe/export',
+    apiKey: process.env.API_KEY,//'FFASSPRFNQQVIMBBJYXEYVBBLI7E4T3RNM4TWOJXOI2X23BWOMYA',
     itemsPerPage: 2
   });
   

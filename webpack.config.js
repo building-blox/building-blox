@@ -1,5 +1,4 @@
  const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-// const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -20,7 +19,6 @@ module.exports = async (env, argv) => {
   });
   
   const pages = await blox.getPages();
-  console.log('>>>>>>>>>entry:::', blox.getEntry())
   return {
     mode: argv.mode,
     entry: blox.getEntry(),
@@ -105,29 +103,6 @@ module.exports = async (env, argv) => {
             ]
           }
         },
-        // {
-        //   test: /\.(jpe?g|png|gif|svg)$/i,
-        //   /* Exclude fonts while working with images, e.g. .svg can be both image or font. */
-        //   // exclude: path.resolve(__dirname, '../src/assets/fonts'),
-        //   use: [{
-        //     loader: 'file-loader',
-        //     options: {
-        //       name: '[name].[ext]',
-        //       outputPath: 'images/'
-        //     }
-        //   }]
-        // },
-        // {
-        //   test: /\.(woff(2)?|ttf|eot|svg|otf)(\?v=\d+\.\d+\.\d+)?$/,
-        //   /* Exclude images while working with fonts, e.g. .svg can be both image or font. */
-        //   exclude: path.resolve(__dirname, '../src/assets/images'),
-        //   use: [{
-        //     loader: 'file-loader',
-        //     options: {
-        //       name: '[name].[ext]',
-        //       outputPath: 'fonts/'
-        //     },
-        //   },
         {
           test: /\.(png|jpg|gif)$/i,
           use: [
@@ -169,22 +144,6 @@ module.exports = async (env, argv) => {
       new ExtraWatchWebpackPlugin({
         dirs: ['templates']
       }),
-      new RemovePlugin({
-        before: {
-          include: [
-            'dist'
-          ],
-          trash: false,
-          allowRootAndOutside: true
-        },
-        after: {
-          include: [
-            'temp'
-          ],
-          trash: false,
-          allowRootAndOutside: true
-        }
-      }),
       new CopyWebpackPlugin([
         {
           from: './src/assets/images/*',
@@ -193,7 +152,6 @@ module.exports = async (env, argv) => {
           force: true
         }
       ], { copyUnmodified: true }),
-      // new CleanWebpackPlugin()
     ],
     optimization: {
       minimizer: [

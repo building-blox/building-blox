@@ -54,7 +54,6 @@
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "precss": "^4.0.0",
-    "remove-files-webpack-plugin": "^1.2.0",
     "sass-loader": "^8.0.0",
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",

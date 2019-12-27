@@ -37,22 +37,31 @@
   const info = chalk.keyword('lightblue')
   const success = chalk.keyword('lightgreen')
 
+  const fsUtil = require('./util/fs-util')
+  
+/**
+ * Blox class. Prepares building blocks for static site generation including pages, 
+ * partials and components. Connects styles, scripts and images for each block.
+ */
   class Blox {
     page = {};
     pages = [];
     pageNames = [];
     entry = {};
-    blockUtilConfig = { images: '' };
+    bloxConfig = { 
+      js: `require('../src/assets/js/main.js');\n`,
+      images: ''
+     };
     itemsPerPage;
     context;
     options;
 
-    projectRoot = path.join(__dirname, '../')
-    templatesPath = `${this.projectRoot}src/templates`
-    pagesPath = `${this.templatesPath}/pages`
+    projectRoot = path.join(__dirname, '../');
+    templatesPath = `${this.projectRoot}src/templates`;
+    pagesPath = `${this.templatesPath}/pages`;
     dataPath = `${this.projectRoot}src/data/`;
     db = require(`${this.dataPath}db.json`);
-    data = this.data;
+    data;
 
     patterns = {
       sass: /\.(sa|sc|c)ss$/,
@@ -61,7 +70,7 @@
     }
 
     defaultEntryPaths = [
-      "./src/assets/js/main.js"
+      "./.blox/index.js"
     ];
     defaultItemsPerPage = 50;
 
@@ -73,6 +82,17 @@
 
     }
 
+    /**
+     * Set up before template preparation and block connection.
+     */
+    async init(){
+      fs.closeSync(fs.openSync(`${this.projectRoot}/.blox/index.js`, 'w'))
+      await fsUtil.makeDir(`${this.projectRoot}/.blox/scss`);
+    }
+
+    /**
+     * Load data from external resource. Data will be written to src/data/db.json.
+     */
     loadData() {
       return new Promise((resolve, reject) => {
         if (!this.options.dataFetchType || this.options.dataFetchType === "remote") {
@@ -88,7 +108,6 @@
           } else {
             return;
           }
-
         }
 
         let dataUrl = `${this.options.apiEndpoint}?apikey=${this.options.apiKey}`;
@@ -101,12 +120,18 @@
             );
             resolve();
           })
-          .catch(function (error) {
-            reject(error)
+          .catch(function (err) {
+            console.log(
+              info('Blox: Unable to retreive data. Falling back to local data.', err)
+            );
+            resolve();
           })
       });
     }
 
+    /**
+     * Create context data object to be available for templates.
+     */
     async createContext() {
       const appData = await this.getAppData();
       return {
@@ -117,55 +142,38 @@
       };
     }
 
-
     /**
-     * Get directory names (Blocks are directories within the templates directory).
-     * @param {String} dir
+     * Create paths for Webpack entry.
+     * @param {String} blockName 
      */
-    getDirectories(dir) {
-      return new Promise((resolve) => {
-        let directories = fs.readdirSync(dir).filter(function (file) {
-          return fs.statSync(path.join(dir, file)).isDirectory()
-        })
-        resolve(directories);
-      });
-    }
-
     createEntryPaths(blockName) {
       let newEntryPaths = [...this.entryPaths];
-      const entryPath = `./temp/scss/${blockName}.scss`;
+      const entryPath = `./.blox/scss/${blockName}.scss`;
       newEntryPaths.push(entryPath);
       this.entry[blockName] = newEntryPaths;
       return newEntryPaths;
     }
 
-    makeDir(path) {
-      return new Promise(async function (resolve, reject) {
-        if (!fs.existsSync(path)) {
-          fs.mkdirSync(path, { recursive: true });
-        }
-        resolve();
-      });
-    }
-
+    /**
+     * Connect images for Blox config.
+     * @param {String} blockName 
+     * @param {String} path 
+     */
     connectImages(blockName, path) {
       let self = this;
       return new Promise(async function (resolve, reject) {
         let fullPath = `${self.templatesPath}${path}/${blockName}`;
-        console.log('full path:', fullPath)
-        let hasImages = await self.contains(fullPath, self.patterns.images);
+        let hasImages = await fsUtil.contains(fullPath, self.patterns.images);
         if (hasImages) {
-          console.log('has images:', fullPath)
           fs.readdir(`${fullPath}/images`, function (err, files) {
             if (err) {
               return console.log('Unable to scan directory: ' + err);
             }
             files.forEach(function (file) {
-              self.blockUtilConfig.images += `require("../src/templates${path}/${blockName}/images/${file}");\n`;
+              self.bloxConfig.images += `require("../src/templates${path}/${blockName}/images/${file}");\n`;
             });
-            //write JS imports to auto-generated temp/temp.js file
-            fs.writeFileSync(`${self.projectRoot}/temp/temp.js`,
-              self.blockUtilConfig.images, null, 4);
+            //write JS imports to auto-generated .blox/index.js file
+            self.bloxConfig.js += `${self.bloxConfig.images}\n`;
             console.log(
               info(`Blox: Connected ${blockName} images`)
             );
@@ -177,6 +185,12 @@
       });
     }
 
+    /**
+     * Connect the partials and components that are subdirectories of the page directory (local blocks).
+     * @param {String} pageName 
+     * @param {String} path 
+     * @param {String} blockType 
+     */
     async connectPageLocalBlocks(pageName, path, blockType) {
       let self = this;
       return new Promise(function (resolve, reject) {
@@ -188,9 +202,9 @@
               for (let i = 0; i < dirs.length; i++) {
                 let blockName = dirs[i];
                 await self.connectImages(blockName, `/pages/${pageName}/${blockType}`);
-                let hasSass = await self.contains(`${blockPath}/${blockName}`, self.patterns.sass);
+                let hasSass = await fsUtil.contains(`${blockPath}/${blockName}`, self.patterns.sass);
                 if (hasSass) {
-                  self.blockUtilConfig[pageName].sass += self.getSassContent(
+                  self.bloxConfig[pageName].sass += self.getSassContent(
                     pageName,
                     `${blockName} block of ${pageName} page`,
                     `${path}${blockType}/${blockName}/${blockName}`
@@ -212,11 +226,18 @@
       })
     }
 
+    /**
+     * Connect partial and component blocks that are packages in the sets directory (global blocks).
+     * @param {Array} blocks 
+     * @param {String} pageName 
+     * @param {String} blockPath 
+     */
     async connectGlobalBlocks(blocks, pageName, blockPath) {
       let basePath = `${this.projectRoot}/src/templates/sets${blockPath}`;
       for (let i = 0; i < blocks.length; i++) {
         const block = blocks[i];
-        this.blockUtilConfig[pageName].sass += this.getSassContent(
+        await this.connectImages(block.name, `/sets/${blockPath}`);
+        this.bloxConfig[pageName].sass += this.getSassContent(
           pageName,
           `global ${block.name} block of ${pageName} page`,
           `/sets${blockPath}/${block.name}/${block.name}`);
@@ -227,38 +248,56 @@
       );
     }
 
+    /**
+     * Get the content for connecting Sass.
+     * @param {String} pageName 
+     * @param {String} forText 
+     * @param {String} pathText 
+     */
     getSassContent(pageName, forText, pathText) {
       return `\n\n/************\nAuto-generated Sass for ${forText}\n*************/\n@import "../../src/templates${pathText}";`;
     }
 
-    async connectPageGlobalBlocks(setConfig) {
-      for (let i = 0; i < setConfig.partialSets.length; i++) {
-        const partialSet = setConfig.partialSets[i];
-        this.connectGlobalBlocks(partialSet.blocks, setConfig.pageName, `/partials/${partialSet.name}`);
+    /**
+     * Connect all sets of global partial and component blocks as specified in the page's .yaml file.
+     * @param {Object} setsConfig 
+     */
+    async connectPageSets(setsConfig) {
+      for (let i = 0; i < setsConfig.partialSets.length; i++) {
+        const partialSet = setsConfig.partialSets[i];
+        this.connectGlobalBlocks(partialSet.blocks, setsConfig.pageName, `/partials/${partialSet.name}`);
       }
 
-      for (let i = 0; i < setConfig.componentSets.length; i++) {
-        const componentSet = setConfig.componentSets[i];
-        this.connectGlobalBlocks(componentSet.blocks, setConfig.pageName, `/components/${componentSet.name}`);
+      for (let i = 0; i < setsConfig.componentSets.length; i++) {
+        const componentSet = setsConfig.componentSets[i];
+        this.connectGlobalBlocks(componentSet.blocks, setsConfig.pageName, `/components/${componentSet.name}`);
       }
     }
 
-    createBlockUtilConfig() {
+    /**
+     * Create object used for connecting blocks.
+     */
+    createBlockConnectionConfig() {
       return {
-        sass: '@import "../../src/assets/scss/main";\n@import "../../src/templates/layout/layout";\n',
-        // sass: '@import "../main";\n@import "../../../templates/layout/layout";\n',
+        sass: '@import "../../src/assets/scss/main";\n',
         images: '',
         hasScripts: false
       }
     }
 
+    /**
+     * Connect the local and global partial and component blocks of a page.
+     * @param {String} pageName 
+     * @param {String} pagePath 
+     * @param {Object} sassConfig 
+     */
     async connectPage(pageName, pagePath, sassConfig) {
 
       await this.connectImages(pageName, '/pages');
-      let hasSass = await this.contains(`${this.pagesPath}/${pageName}`, this.patterns.sass);
+      let hasSass = await fsUtil.contains(`${this.pagesPath}/${pageName}`, this.patterns.sass);
       if (hasSass) {
         //connect page Sass
-        this.blockUtilConfig[pageName].sass += this.getSassContent(
+        this.bloxConfig[pageName].sass += this.getSassContent(
           pageName,
           sassConfig.forText,
           sassConfig.pathText
@@ -276,12 +315,11 @@
 
       //connect blocks that have global (project-level) scope
       let blockConfig = await this.getBlockConfig(pageName);
-      await this.connectPageGlobalBlocks(blockConfig);
-      const sassPath = `${this.projectRoot}/temp/scss`;
-      await this.makeDir(`${this.projectRoot}/temp/scss`);
+      await this.connectPageSets(blockConfig);
+      const sassPath = `${this.projectRoot}/.blox/scss`;
       //write Sass imports to generated page Sass file
       fs.writeFileSync(`${sassPath}/${pageName}.scss`,
-        this.blockUtilConfig[pageName].sass, null, 4);
+        this.bloxConfig[pageName].sass, null, 4);
       console.log(
         success(`Blox: Finished connecting blocks for ${pageName} page`)
       );
@@ -299,8 +337,8 @@
 
           self.entry[pageName] = self.createEntryPaths(pageName);
           let entryConfig = await self.processEntryPoint(pageName, `./src/templates/pages/${pageName}/${pageName}`, pagePath);
-          self.blockUtilConfig[pageName] = self.createBlockUtilConfig();
-          self.blockUtilConfig[pageName].hasScripts = entryConfig.hasScripts;
+          self.bloxConfig[pageName] = self.createBlockConnectionConfig();
+          self.bloxConfig[pageName].hasScripts = entryConfig.hasScripts;
           await self.preparePage(pageName, entryConfig);
           await self.connectPage(
             pageName,
@@ -312,7 +350,7 @@
 
           //process master-detail pattern
 
-          let subDirs = await self.getDirectories(self.pagesPath + '/' + pageName)
+          let subDirs = await fsUtil.getDirectories(self.pagesPath + '/' + pageName)
           let isMasterDetail = false;
           // find a subfolder with the name "detail"
           for (let i = 0; i < subDirs.length; i++) {
@@ -322,7 +360,7 @@
               if (self.context.db[pageName] && self.context.db[pageName].items) {
                 await self.prepareDetailPages(pageName, entryConfig);
                 let detailName = `${pageName}-detail`;
-                self.blockUtilConfig[detailName] = self.createBlockUtilConfig();
+                self.bloxConfig[detailName] = self.createBlockConnectionConfig();
                 await self.connectPage(
                   detailName,
                   `/pages/${pageName}/detail/`,
@@ -374,16 +412,31 @@
       });
     }
 
+    /**
+     * Write the connections for Javascript and images.
+     */
+    async writeBlockConfig(){
+      fs.writeFileSync(`${this.projectRoot}/.blox/index.js`,
+              this.bloxConfig.js, null, 4);
+    }
+    
+    /**
+     * Get pages for generation.
+     * @param {Object} options 
+     * @param {String} mode 
+     */
     getPages(options, mode) {
       let self = this;
       return new Promise(async (resolve) => {
+        await self.init();
         if (self.options.mode && self.options.mode === 'production') {
           await self.loadData();
         }
 
-        this.pageNames = await this.getDirectories(this.pagesPath);
+        this.pageNames = await fsUtil.getDirectories(this.pagesPath);
         self.prepareTemplates()
           .then(() => {
+            self.writeBlockConfig();
             console.log(
               success(`Blox: Finished preparation. Ready for generation...`)
             );
@@ -438,25 +491,10 @@
       })
     }
 
-    contains(path, pattern) {
-      let self = this;
-      return new Promise(function (resolve, reject) {
-        try {
-          let files = fs.readdirSync(`${path}`).filter(function (file) {
-            return file.match(pattern);
-          });
-          resolve(files.length > 0);
-        } catch (error) {
-          resolve(false);
-        }
-
-      })
-    }
-
     getBlockConfig(pageName) {
       let self = this;
       return new Promise(async function (resolve, reject) {
-        const pagePath = `./src/templates/pages/${pageName}`;
+        const pagePath = `src/templates/pages/${pageName}`;
         let blockConfig = {
           partialSets: [],
           componentSets: [],
@@ -574,7 +612,7 @@
 
     async processEntryPoint(folder, folderPath, basePath) {
       let self = this;
-      let hasScripts = await self.contains(basePath, self.patterns.js);
+      let hasScripts = await fsUtil.contains(basePath, self.patterns.js);
       if (hasScripts) {
         self.entry[folder].push(`${folderPath}.js`);
       }

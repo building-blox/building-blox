@@ -6,15 +6,13 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const RemovePlugin = require('remove-files-webpack-plugin');
 const path = require('path');
-const BuildingBlox = require('building-blox');
+const Blox = require('building-blox');
 
 module.exports = async (env, argv) => {
-  const blox = new BuildingBlox({
+  const blox = new Blox({
     mode: argv.mode,
-    apiEndpoint: 'http://localhost:3000/cd/v1/environments/5dcd631170e43026b85628fe/export',
-    apiKey: 'FFASSPRFNQQVIMBBJYXEYVBBLI7E4T3RNM4TWOJXOI2X23BWOMYA',
-    // apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
-    // apiKey: '<appyay_api_key>',
+    apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
+    apiKey: '<appyay_api_key>',
     itemsPerPage: 2
   });
   

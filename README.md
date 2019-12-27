@@ -72,7 +72,8 @@ Data is kept in JSON format and can be added in three ways:
 1. Manually add a ```db.json``` file with your JSON data to the ```data``` folder.
 2. Uncomment the lines below in ```webpack.config.js``` and replace the placeholders with your [Appyay](https://appyay.com) credentials:
 ````
-const blox = new BuildingBlox({
+const Blox = require('building-blox');
+const blox = new Blox({
     mode: argv.mode,
     // apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
     // apiKey: '<appyay_api_key>'

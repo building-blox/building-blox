@@ -1,4 +1,4 @@
- const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtraWatchWebpackPlugin = require('extra-watch-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -12,13 +12,11 @@ require('dotenv').config();
 module.exports = async (env, argv) => {
   const blox = new Blox({
     mode: argv.mode,
-    // apiEndpoint: 'http://api.appyay.com/cd/v1/environments/<appyay_environment_id>/export',
-    // apiKey: '<appyay_api_key>',
-    apiEndpoint: process.env.API_ENDPOINT,//'http://localhost:3000/cd/v1/environments/5dcd631170e43026b85628fe/export',
-    apiKey: process.env.API_KEY,//'FFASSPRFNQQVIMBBJYXEYVBBLI7E4T3RNM4TWOJXOI2X23BWOMYA',
-    itemsPerPage: 2
+    apiEndpoint: process.env.API_ENDPOINT,
+    apiKey: process.env.API_KEY,
+    itemsPerPage: 1
   });
-  
+
   const pages = await blox.getPages();
   return {
     mode: argv.mode,
@@ -105,7 +103,7 @@ module.exports = async (env, argv) => {
           }
         },
         {
-          test: /\.(png|jpg|gif)$/i,
+          test: /\.(png|jpg|jpeg|gif)$/i,
           use: [
             {
               loader: 'url-loader',
@@ -116,16 +114,35 @@ module.exports = async (env, argv) => {
             }
           ]
         },
+        // {
+        //   test: /\.svg/,
+        //   use: {
+        //     loader: 'svg-url-loader',
+        //     options: {
+        //       name: "assets/images/[name].[ext]"
+        //     }
+        //   }
+        // },
         {
-          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          test: /\.svg/,
           use: [{
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'fonts/'
+              outputPath: 'assets/images'
             }
           }]
-        }
+        },
+        // {
+        //   test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        //   use: [{
+        //     loader: 'file-loader',
+        //     options: {
+        //       name: '[name].[ext]',
+        //       outputPath: 'fonts/'
+        //     }
+        //   }]
+        // }
       ]
     },
     stats: {

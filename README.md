@@ -400,7 +400,7 @@ In your list template, you can loop through items in a range like so:
 
 ### Assets
 #### Sass
-Sass files are stored in the ````src/assets/scss/```` directory and in the root of page directories. The root Sass file for custom styles is ````src/assets/scss/main.scss````.
+Sass files are stored in the ````src/assets/scss/```` directory and in the root of page directories. The root Sass file for custom styles is ````src/assets/scss/_main.scss````.
 Sass files kept at a page/partial/component level (in the templates directory) are automatically compiled and bundled.
 
 #### Javascript

@@ -2,7 +2,11 @@
 
 [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Finspiring-sammet-8f8ba9.netlify.com&tab=desktop)
 
-This project is the starting point for creating Building Blox projects. Clone "Blocks" into this project to build your site. 
+:white_check_mark: Static website generator
+:white_check_mark: Reusable website components (saved as git repositories)
+:white_check_mark: Content management system integration
+
+This project is the starting point for creating Building Blox projects. Add git submodules "Blocks" into this project to build your site or remix existing Building Blox sites.
 
 > Building Blox focuses on facilitating the rapid development of static websites, providing ease of use for developers and it works seamlessly with the [Appyay](https://appyay.com) headless content management system.
 
@@ -14,7 +18,70 @@ A block is a Github repository representing a:
 - component
 - lambda
 
-Page, partial and component blocks can be directly cloned into the project. The README.md file of each block provides additional infomation about installation and block dependencies.
+## Adding a new block
+Page, partial and component blocks can be added to this project as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
+
+### Adding a page block
+> Commands should be run in the *project directory*
+To add a page block, run:
+````
+git submodule add <git_clone_url> ./src/templates/pages/<block_full_name>
+````
+#### Example
+To add a new home page from the (blox.site.quiz)[https://github.com/richjava/blox.site.quiz] site:
+````
+git submodule add https://github.com/richjava/blox.page.home.quiz.git ./src/templates/pages/blox.page.home.quiz
+````
+### Adding a page partial or component block 
+> Commands should be run in the *page block directory*
+
+To add a partial, run:
+````
+git submodule add <git_clone_url> ./partials/<partial_block_full_name>
+````
+And for a component, run:
+````
+git submodule add <git_clone_url> ./components/<component_block_full_name>
+````
+
+### Adding a page package 
+> Commands should be run in the *project directory*
+To add a page to a page package:
+````
+git submodule add <git_clone_url> ./src/templates/pages/packages/<page_package_block_full_name>/<page_block_full_name>
+````
+
+### Adding a page to a page package
+> Commands should be run in the *page package block directory*
+To add a page, run:
+````
+git submodule add <git_clone_url> ./<page_block_full_name>
+
+
+### Adding a global partial or component package
+> Commands should be run in the *project directory*
+To add a global partial package, run:
+````
+git submodule add <git_clone_url> ./src/templates/packages/partials/<partial_package_block_full_name>
+````
+And for a global component package, run:
+````
+git submodule add <git_clone_url> ./src/templates/packages/components/<component_package_block_full_name>
+````
+
+### Adding a partial or component block to a global partial or component package
+> Commands should be run in the *global partial or component package block directory*
+TO add a global partial, run:
+````
+git submodule add <git_clone_url> ./<partial_block_full_name>
+````
+And for a global component, run:
+````
+git submodule add <git_clone_url> ./<component_block_full_name>
+````
+
+
+The README.md file of each block provides additional infomation about installation and dependencies.
 
 A Lambda block is not the whole repository, just the Javascript file in it. 
 

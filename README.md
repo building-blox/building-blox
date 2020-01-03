@@ -4,7 +4,7 @@
 
 :white_check_mark: Static website generator
 
-:white_check_mark: Reusable website components (saved as git repositories)
+:white_check_mark: Reuse website components across projects (add them as git submodules!)
 
 :white_check_mark: Content management system integration
 

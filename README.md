@@ -12,6 +12,10 @@ This project is the starting point for creating Building Blox projects. Add git 
 
 > Building Blox focuses on facilitating the rapid development of static websites, providing ease of use for developers and it works seamlessly with the [Appyay](https://appyay.com) headless content management system.
 
+#### Example Building Blox site
+The Quiz site is a good example of how Building Blox makes it possible to create a library of website components.
+
+:globe_with_meridians: [Quiz site](https://github.com/richjava/blox.site.quiz)
 
 ## Features
 

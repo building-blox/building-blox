@@ -33,7 +33,7 @@ Building Blox features include:
 * Netlify configuration file
 * A modular, reusable design
 
-### :bulb: What is a "Block"?
+### What is a "Block"?
 
 A block is a Github repository representing one of the following:
 - page
@@ -100,7 +100,7 @@ Building Blox assumes the following minimal directory structure:
 ### Adding a new block
 Page, partial and component blocks can be added to this project as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 
-#### :bulb: Block names
+#### Block names
 Blocks follow a strict naming convention to make exporting blocks as git repositories easy.
 
 Blocks have the following naming convention:

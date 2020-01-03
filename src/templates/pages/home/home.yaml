@@ -1,9 +1,0 @@
----
-# partialSets:
-      #  - name: <set_name, i.e. default>
-      #    blocks:
-      #       - name: <partial_block_name, i.e. landing>
-# componentSets:
-      #  - name: <set_name, i.e. bootstrap>
-      #    blocks:
-      #       - name: <component_block_name, i.e. pagination>

@@ -29,13 +29,23 @@ Building Blox features include:
 * Netlify configuration file
 * A modular, reusable design
 
-## :bulb: What is a "Block"?
+### :bulb: What is a "Block"?
 
 A block is a Github repository representing one of the following:
 - page
 - partial
 - component
 - lambda
+
+#### Block names
+Blocks follow a strict naming convention to make exporting blocks as git repositories easy.
+
+Blocks have the following naming convention:
+````blox.<block_type>.<block_name>````
+For example, ```blox.page.home```
+
+And can optionally be suffixed with the site name:
+````blox.<block_type>.<block_name>.<site_name>````
 
 ## Adding a new block
 Page, partial and component blocks can be added to this project as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
@@ -48,10 +58,11 @@ To add a page block, run:
 git submodule add <git_clone_url> ./src/templates/pages/<block_full_name>
 ````
 #### Example
-To add a new home page from the (blox.site.quiz)[https://github.com/richjava/blox.site.quiz] site:
+To add a new home page from the [blox.site.quiz](https://github.com/richjava/blox.site.quiz) site:
 ````
 git submodule add https://github.com/richjava/blox.page.home.quiz.git ./src/templates/pages/blox.page.home.quiz
 ````
+
 ### Adding a page partial or component block 
 > Commands should be run in the *page block directory*.
 
@@ -84,6 +95,8 @@ git submodule add <git_clone_url> ./<page_block_full_name>
 ### Adding a global partial or component package
 > Commands should be run in the *project directory*.
 
+> Global blocks need to be specified in the pages ```<page_name>.yaml``` file.
+
 To add a global partial package, run:
 ````
 git submodule add <git_clone_url> ./src/templates/packages/partials/<partial_package_block_full_name>
@@ -95,7 +108,10 @@ git submodule add <git_clone_url> ./src/templates/packages/components/<component
 ````
 
 ### Adding a partial or component block to a global partial or component package
-> Commands should be run in the *global partial or component package block directory*.
+> Commands should be run in the *global partial or component package block directory* 
+(i.e. src/templates/packages/<partials_or_components>/<partial_or_component_package_block>).
+
+> Global blocks need to be specified in the pages ```<page_name>.yaml``` file.
 
 TO add a global partial, run:
 ````
@@ -112,6 +128,41 @@ git submodule add <git_clone_url> ./<component_block_full_name>
 To add a Lambda block, just place the block's Javascript file this project's ```functions``` directory.
 
 > The README.md file of each block provides additional infomation about installation and dependencies.
+
+## Adding global blocks
+
+### Connecting global blocks
+> Global blocks allow you to reuse blocks across pages and use packages as "libraries" of blocks.
+
+Building Blox will connect styles and Javascript for the global blocks that you specify. You can configure which blocks to be connect in a page's ```<page_name>.yaml``` file:
+
+````
+---
+### Uncomment below to connect global blocks
+# partialPackages:
+      #  - name: <partial_package_name, i.e. blox.partial-package.navigation>
+      #    blocks:
+      #       - name: <partial_block_name, i.e. blox.partial.nav.quiz>
+# componentPackages:
+      #  - name: <component_package_name, i.e. blox.package.bootstrap>
+      #    blocks:
+      #       - name: <component_block_name, i.e. blox.component.pagination>
+````
+
+### Using global blocks in templates
+You can include a global partial in a template like so:
+````
+{% include "packages/partials/blox.partial-package.<package>/blox.partial.<partial>/<partial>.njk" %}
+````
+Example:
+````
+{% include "packages/partials/blox.partial-package.navigation/blox.partial.nav.quiz/nav.njk" %}
+````
+
+And to add a global component:
+````
+{% include "packages/components/blox.component-package.<package>/blox.component.<component>/<component>.njk" %}
+````
 
 ## Getting Started
 ### 1. Use this template (click the green "Use this template" button) or,
@@ -180,30 +231,23 @@ Data in this file should be in the following format (using "features" as an exam
 
 ````
 ### Project structure
-Building Blox assumes the following ```src``` directory structure:
+Building Blox assumes the following minimal directory structure:
 ````
 |--src
     |--assets
+        |--images
         |--js
-            |--main.js //entry point for global custom Javascript
+            |--main.js
         |--scss
-            |--generated //auto-generated Sass files
-            |--_main.scss //entry point for custom Sass styles
+            |--_main.scss
     |--data
         |--db.json 
     |--templates
         |--layout
             |--layout.njk
         |--pages
-            |--home //home page block
-                |--components //page level components go here
+            |--blox.page.home.<site_name>
                 |--home.njk
-                |--partials //page level partials go here
-    |--sets
-        |--components
-            |--default //global custom components go here
-        |--partials
-            |--default //global custom partials go here
 ````
 
 ### Creating Nunjucks templates

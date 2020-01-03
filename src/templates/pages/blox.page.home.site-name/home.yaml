@@ -1,0 +1,10 @@
+---
+### Uncomment below to connect global blocks
+# partialPackages:
+      #  - name: <partial_package_name, i.e. blox.partial-package.navigation>
+      #    blocks:
+      #       - name: <partial_block_name, i.e. blox.partial.nav.quiz>
+# componentPackages:
+      #  - name: <component_package_name, i.e. blox.package.bootstrap>
+      #    blocks:
+      #       - name: <component_block_name, i.e. blox.component.pagination>

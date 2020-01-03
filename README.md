@@ -73,6 +73,26 @@ The website will be viewable at http://localhost:3000. On save of the project, o
 
 ## How to use
 
+### Project structure
+Building Blox assumes the following minimal directory structure:
+````
+|--src
+    |--assets
+        |--images
+        |--js
+            |--main.js
+        |--scss
+            |--_main.scss
+    |--data
+        |--db.json 
+    |--templates
+        |--layout
+            |--layout.njk
+        |--pages
+            |--blox.page.home.<site_name>
+                |--home.njk
+````
+
 ### Adding a new block
 Page, partial and component blocks can be added to this project as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 
@@ -270,26 +290,6 @@ The ```blox.page``` object has the following properties:
 | rootPage      | Root page name for detail pages                           |
 | title         | Page title (if available)                                 | 
 | path          | Used to prefix paths for images, etc.                     |
-
-### Project structure
-Building Blox assumes the following minimal directory structure:
-````
-|--src
-    |--assets
-        |--images
-        |--js
-            |--main.js
-        |--scss
-            |--_main.scss
-    |--data
-        |--db.json 
-    |--templates
-        |--layout
-            |--layout.njk
-        |--pages
-            |--blox.page.home.<site_name>
-                |--home.njk
-````
 
 ### Creating Nunjucks templates
 [Nunjucks](https://mozilla.github.io/nunjucks/) is used for compiling template files to HTML.

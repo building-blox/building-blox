@@ -3,7 +3,9 @@
 [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Finspiring-sammet-8f8ba9.netlify.com&tab=desktop)
 
 :white_check_mark: Static website generator
+
 :white_check_mark: Reusable website components (saved as git repositories)
+
 :white_check_mark: Content management system integration
 
 This project is the starting point for creating Building Blox projects. Add git submodules "Blocks" into this project to build your site or remix existing Building Blox sites.

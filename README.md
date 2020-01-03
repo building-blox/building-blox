@@ -29,9 +29,9 @@ Building Blox features include:
 * Netlify configuration file
 * A modular, reusable design
 
-## What is a "Block"?
+## :bulb: What is a "Block"?
 
-A block is a Github repository representing a:
+A block is a Github repository representing one of the following:
 - page
 - partial
 - component
@@ -59,6 +59,7 @@ To add a partial, run:
 ````
 git submodule add <git_clone_url> ./partials/<partial_block_full_name>
 ````
+
 And for a component, run:
 ````
 git submodule add <git_clone_url> ./components/<component_block_full_name>
@@ -78,7 +79,7 @@ git submodule add <git_clone_url> ./src/templates/pages/packages/<page_package_b
 To add a page, run:
 ````
 git submodule add <git_clone_url> ./<page_block_full_name>
-
+````
 
 ### Adding a global partial or component package
 > Commands should be run in the *project directory*.
@@ -87,6 +88,7 @@ To add a global partial package, run:
 ````
 git submodule add <git_clone_url> ./src/templates/packages/partials/<partial_package_block_full_name>
 ````
+
 And for a global component package, run:
 ````
 git submodule add <git_clone_url> ./src/templates/packages/components/<component_package_block_full_name>
@@ -99,6 +101,7 @@ TO add a global partial, run:
 ````
 git submodule add <git_clone_url> ./<partial_block_full_name>
 ````
+
 And for a global component, run:
 ````
 git submodule add <git_clone_url> ./<component_block_full_name>

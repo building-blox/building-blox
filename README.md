@@ -369,7 +369,7 @@ Template files end with the ".njk" file extension and share the name of the bloc
 ````
 home.njk
 ````
-The exception to this is detail pages (see below);
+The exception to this is detail pages (see "Master-detail pattern" below);
 
 ### Page blocks
 Page blocks are added as sub-directories of the "pages" directory and include a .njk file with the same name as the page.
@@ -481,4 +481,34 @@ Javascript files can also be included at page/component level (for example ```ho
 Images can be added to the ````src/assets/images```` folder. This is an example of how to display an image in a template:
 ````
 <img src="{{ blox.page.path }}images/my-image.png" alt="My image"/>
+````
+
+## Troubleshooting
+### Templates
+#### I get an error, "Error: Expected html to be a string but got null"
+Check your template files, you may have specified the wrong path for an include or import.
+
+#### The styles/scripts of my global partial/component are working
+Configure the partial/component in your pages .yaml file.
+
+#### Something's not working as expected
+Try restarting the server :)
+
+### Submodules
+#### After adding a submodule, the nested blocks are empty folders
+Open your terminal on any empty submodule and run:
+````
+git submodule init
+````
+````
+git submodule update --remote
+````
+If you want to commit changes to the submodule, also run:
+````
+git checkout <branch-name>
+````
+#### I want to commit changes to my submodule, but it has a detached HEAD
+Run:
+````
+git checkout <branch-name>
 ````

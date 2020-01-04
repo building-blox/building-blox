@@ -134,7 +134,7 @@ Page package blocks (```src/templates/pages/packages/<page_package_name>```) con
 Global partial package blocks (```src/templates/packages/partials/<partial_package_name>```) may contain:
 - partial blocks
 
-Global componant package blocks (```src/templates/packages/components/<component_package_name>```) may contain:
+Global component package blocks (```src/templates/packages/components/<component_package_name>```) may contain:
 - component blocks
 
 

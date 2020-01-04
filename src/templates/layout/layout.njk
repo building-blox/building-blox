@@ -11,13 +11,13 @@
     </head>
 
     <body>
-        {% include "layout/partials/header/header.njk" %}
+        {% include "layout/partials/blox.partial.header.site-name/header.njk" %}
         <main>
             {% block content %}{% endblock %}
         </main>
         <!-- Admin page doesn't have a footer -->
         {% if blox.page.name !== 'admin' %}
-            {% include "layout/partials/footer/footer.njk" %}
+            {% include "layout/partials/blox.partial.footer.site-name/footer.njk" %}
         {% endif %}
         <script src="{{blox.page.path}}assets/js/{{blox.page.name}}.js"></script>
     </body>

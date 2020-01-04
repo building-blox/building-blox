@@ -35,13 +35,28 @@ Building Blox features include:
 
 ### What is a "Block"?
 
-A block is a Github repository representing one of the following:
-- page
-- partial
-- component
-- lambda
+A block is just a directory representing one of the following:
 
+#### Page
+A web page.
 
+#### Partial
+Part of a web page, like a section, header, etc.
+
+#### Component
+Similar to a partial, but uses Nunjucks macros instead of includes to offer extended flexibility. Useful for things like a pagination component that need values passed to it.
+
+#### Page package
+A collection of related pages.
+
+#### Partial package
+A collection or "library" of related partials (that may or may not be used in the generated website).
+
+#### Component package
+A collection or "library" of related components (that may or may not be used in the generated website).
+
+#### Lambda
+A lambda is used to communicate with web services to implement functionality. It is actually just a Javascript file but if it is stored in version control it will be kept in a directory with a README.md file.
 
 ## Getting Started
 ### 1. Use this template (click the green "Use this template" button) or,
@@ -98,7 +113,47 @@ Building Blox assumes the following minimal directory structure:
 ````
 
 ### Adding a new block
-Page, partial and component blocks can be added to this project as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
+Page, partial and component blocks can be added to this project as directories. 
+All blocks must contain:
+- ```<block-name>.njk``` template file
+
+All blocks may contain:
+- ```_<block-name>.scss``` Sass file
+- ```<blockname>.js``` Javascript file
+- ```images``` directory
+
+Page blocks may also contain:
+- ```partials``` directory 
+- ```components``` directory
+- ```<blockname>.yaml``` config file (used by pages for connecting global partials/components)
+- ```detail``` directory (to implement master-detail pattern - see below)
+
+Page package blocks (```src/templates/pages/packages/<page_package_name>```) contain:
+- page blocks
+
+Global partial package blocks (```src/templates/packages/partials/<partial_package_name>```) may contain:
+- partial blocks
+
+Global componant package blocks (```src/templates/packages/components/<component_package_name>```) may contain:
+- component blocks
+
+
+
+
+
+
+For reference, the blocks that this project contains are:
+#### Page blocks
+> Located in src/templates/pages
+
+- blox.page.home.site-name (change site-name to your site's name)
+- blox.page.admin (no site-name suffix for admin page only)
+
+#### Partial blocks
+> Located in src/templates/layout/partials
+
+- blox.partial.header.site-name
+- blox.partial.footer.site-name
 
 #### Block names
 Blocks follow a strict naming convention to make exporting blocks as git repositories easy.
@@ -117,6 +172,16 @@ It can optionally be suffixed with the site name:
 ````
 blox.<block_type>.<block_name>.<site_name>
 ````
+
+### Saving a block using version control
+You can save any block in your project using git version control for reuse in other projects. To do this, run this command in your block's directory:
+````
+git init
+````
+And then go through the normal procedures to push your block's code to the remote repository. See [blox.site.quiz](https://github.com/richjava/blox.site.quiz) site as an example of how blocks are managed in Github.
+
+### Reusing existing blocks using version control
+Page, partial and component blocks can be added to this project as [git submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules).
 
 #### Adding a page block
 > Commands should be run in the *project directory*.

@@ -2,6 +2,8 @@
 
 [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Finspiring-sammet-8f8ba9.netlify.com&tab=desktop)
 
+> Building Blox lets developers curate sets of custom website components and facilitates the rapid development of static websites. It works seamlessly with the [Appyay](https://appyay.com) headless content management system.
+
 :white_check_mark: Static website generator
 
 :white_check_mark: Reuse website components across projects (add them as git submodules!)
@@ -9,8 +11,6 @@
 :white_check_mark: Content management system integration
 
 This project is the starting point for creating Building Blox projects. Add git submodules "Blocks" into this project to build your site or remix existing Building Blox sites.
-
-> Building Blox focuses on facilitating the rapid development of static websites, providing ease of use for developers and it works seamlessly with the [Appyay](https://appyay.com) headless content management system.
 
 #### Example Building Blox site
 The Quiz site is a good example of how Building Blox makes it possible to create a library of website components.

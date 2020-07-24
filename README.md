@@ -1,5 +1,7 @@
 # Building Blox
 
+# THIS REPO IS NO LONGER MAINTAINED, PLEASE SEE THE BUILDING-BLOX/BLOX-THEME-DEMO FOR REFERENCE INSTEAD
+
 [![Lighthouse score: 100/100](https://lighthouse-badge.appspot.com/?score=100)](https://developers.google.com/speed/pagespeed/insights/?url=https%3A%2F%2Finspiring-sammet-8f8ba9.netlify.com&tab=desktop)
 
 > Building Blox lets developers curate sets of custom website components and facilitates the rapid development of static websites. It works seamlessly with the [Appyay](https://appyay.com) headless content management system.
